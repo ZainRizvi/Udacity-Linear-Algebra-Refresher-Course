@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import math
 from decimal import Decimal, getcontext
 
@@ -47,6 +49,12 @@ class Vector(object):
         except ZeroDivisionError:
             raise Exception('Cannot normalize the zero vector')
 
+    def is_zero(self):
+        for c in self.coordinates:
+            if c != 0:
+                return False
+        return True
+
     def dot_product(self, v):
         multiplication = []
         for v1, v2 in zip(self.coordinates, v.coordinates):
@@ -73,8 +81,11 @@ class Vector(object):
     def is_orthogonal(self, v, tolerance=1e-10):
         return abs(self.dot_product(v)) < tolerance
 
-    # def get_ortogonal(self):
+    def __getitem__(self, i):
+            return self.coordinates[i]
 
+    def __iter__(self):
+            return self.coordinates.__iter__()
 
     def get_component(self, basis):
         u = basis.unit_vector()
